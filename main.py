@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import *
-import sys,os
+import sys
 
 from clickableWidget import ClickableQLabel
 
@@ -21,10 +21,16 @@ class Ui(QtWidgets.QMainWindow):
         self.show()
     
     def search(self):
-        print(self.lineedit.text())
+        self.r = Result()
+        self.r.show()
+
+class Result(QtWidgets.QDialog):
+    def __init__(self):
+        super(Result,self).__init__()
+        uic.loadUi('result.ui',self)
+
 
 if __name__ == '__main__':
-    print(os.getcwd())
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     app.exec_()
