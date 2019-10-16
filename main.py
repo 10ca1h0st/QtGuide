@@ -20,7 +20,7 @@ class Ui(QMainWindow):
 
         self.show()
     
-    @pyqtSlot
+    @pyqtSlot()
     def search(self):
         self.hide()
         self.r = Result()
@@ -32,20 +32,57 @@ class Result(QWidget):
         super(Result,self).__init__()
         uic.loadUi('result.ui',self)
         self.setWindowTitle('RESULT')
+
+        self.table = self.findChild(QTableWidget,'content')
+
+        self.pre = self.findChild(QPushButton,'pre')
+        self.next = self.findChild(QPushButton,'next')
+
+        self.pre.clicked.connect(self.prePage)
+        self.next.clicked.connect(self.nextPage)
+    
+    @pyqtSlot()
+    def prePage(self):
+        pass
+
+    @pyqtSlot()
+    def nextPage(self):
+        pass
     
     def showContent(self,parent,keyWord):
         self.parent = parent
-        self.show()
+        if self.getContent(keyWord):
+            self.show()
+        else:
+            self.parent.setHidden(False)
     
+
+    #return None means error
     def getContent(self,keyWord):
         keyWord = keyWord+'.json'
-        f = open(keyWord,encoding='utf-8')
+        try:
+            f = open(keyWord,encoding='utf-8')
+        except FileNotFoundError:
+            QMessageBox.critical(self,"错误","没有发现有效信息")
+            return
         content = f.read()
         content = json.loads(content)
-        content = content['data']
+        self.content = content['data']
+        self.constructTable()
+        return 1
 
-    def constructTable(content):
-        pass
+    def constructTable(self):
+        self.item_num = len(self.content)
+        column_num = len(self.content[0].keys())
+        row_num = 10
+
+        self.table.setRowCount(row_num)
+        self.table.setColumnCount(column_num)
+
+        #set the name of each column
+        self.table.setHorizontalHeaderLabels(self.content[0].keys())
+        #set table not editable
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
     def closeEvent(self,event):
         if self.parent.isHidden():
