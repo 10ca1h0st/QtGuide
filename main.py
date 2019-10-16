@@ -83,6 +83,11 @@ class Result(QWidget):
         self.table.setHorizontalHeaderLabels(self.content[0].keys())
         #set table not editable
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        #set vertical header invisible
+        #self.table.verticalHeader().setVisible(False)
+
+        self.table.resizeColumnsToContents()
+        self.table.resizeRowsToContents() 
 
     def closeEvent(self,event):
         if self.parent.isHidden():
