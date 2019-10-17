@@ -86,7 +86,7 @@ class Result(QWidget):
         #set vertical header invisible
         #self.table.verticalHeader().setVisible(False)
 
-        self.table.resizeColumnsToContents()
+        self.table.resizeColumnsToContents() #test handle conflict when git pull
         self.table.resizeRowsToContents() 
 
     def closeEvent(self,event):
