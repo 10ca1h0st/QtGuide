@@ -19,11 +19,19 @@ class Result(QWidget):
     
     @pyqtSlot()
     def prePage(self):
-        pass
+        if self.item_index<10:
+            return
+        else:
+            self.item_index = self.item_index-10
+            self.fillTable(self.item_index)
 
     @pyqtSlot()
     def nextPage(self):
-        pass
+        if self.item_index+10>=self.item_num:
+            return
+        else:
+            self.item_index = self.item_index+10
+            self.fillTable(self.item_index)
     
     def showContent(self,parent,keyWord):
         self.parent = parent
@@ -47,8 +55,10 @@ class Result(QWidget):
         self.constructTable()
         return 1
 
+    '''
+    目前的想法是一页10行
+    '''
     def constructTable(self):
-        self.item_num = len(self.content)
         column_num = len(self.content[0].keys())
         row_num = 10
 
@@ -66,6 +76,23 @@ class Result(QWidget):
         #self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         #自适应高度
         self.table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        #目前从第几条数据开始显示
+        self.item_index = 0
+
+        #共有几条数据
+        self.item_num = len(self.content)
+
+        self.fillTable(self.item_index)
+
+    #从数据的第index项开始填充表格
+    def fillTable(self,index):
+        for i in range(10):
+            if index+i>=self.item_num:
+                break
+            
+
+
 
     def closeEvent(self,event):
         if self.parent.isHidden():
