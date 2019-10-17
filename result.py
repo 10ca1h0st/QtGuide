@@ -19,17 +19,21 @@ class Result(QWidget):
     
     @pyqtSlot()
     def prePage(self):
+        print('press pre button')
         if self.item_index<10:
             return
         else:
+            print('go to pre page')
             self.item_index = self.item_index-10
             self.fillTable(self.item_index)
 
     @pyqtSlot()
     def nextPage(self):
+        print('press next page')
         if self.item_index+10>=self.item_num:
             return
         else:
+            print('go to next page')
             self.item_index = self.item_index+10
             self.fillTable(self.item_index)
     
@@ -87,9 +91,15 @@ class Result(QWidget):
 
     #从数据的第index项开始填充表格
     def fillTable(self,index):
+        self.table.clearContents()
         for i in range(10):
             if index+i>=self.item_num:
                 break
+            each_row = self.content[index+i]
+            for column,cell in enumerate(each_row.values()):
+                self.table.setItem(i,column,QTableWidgetItem(cell))
+
+
             
 
 
