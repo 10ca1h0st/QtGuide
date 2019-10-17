@@ -63,7 +63,9 @@ class Result(QWidget):
         #self.table.verticalHeader().setVisible(False)
 
         #自适应宽度
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        #self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        #自适应高度
+        self.table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def closeEvent(self,event):
         if self.parent.isHidden():
